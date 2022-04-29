@@ -15,49 +15,30 @@ headers = {
 clan_list_url = 'https://api.clashofclans.com/v1/clans/%23JPLR0G2G/members?limit=49'
 player_data_url = 'https://api.clashofclans.com/v1/players/%23GPP9G80V'
 
-#response = requests.get(clan_list_url, headers=headers)
-#json_response = response.json()['items']
-#df = pd.json_normalize(json_response)
-#member_stats = df.loc[:,['name','donations','donationsReceived']]
-
 def get_clan_members():
     response = requests.get(clan_list_url, headers=headers)
     json_response = response.json()['items']
     
     df = pd.json_normalize(json_response)
-    #print(df['name'].value_counts)
     
     member_stats = df.loc[:,['name','donations','donationsReceived']]
-    #membos = member_stats.to_csv()
-
 
     app = Dash(__name__)
-
-    # assume you have a "long-form" data frame
-    # see https://plotly.com/python/px-arguments/ for more options
-    #df = pd.DataFrame({
-   #     "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-   #     "Amount": [4, 1, 2, 2, 4, 5],
-   #     "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-   # })
 
     fig = px.bar(member_stats, x="name", y="donations", color="name")
 
     app.layout = html.Div(children=[
-        html.H1(children='Clash of Clans Dashboard For Clan Leaders'),
+        html.H1(children='Clash of Clans Dashboard'),
 
         html.Div(children='''
-            Dash: A web application framework for your data.
+            A dashboard for clan leaders to see how much their clan members are donating. Click on some names in the list to filter out members.
         '''),
 
         dcc.Graph(
             id='example-graph',
             figure=fig
         )
-       # dcc.Graph(
-        #    id='example-graph',
-         #   figure=fig
-        #)
+
     ])
 
     if __name__ == '__main__':
