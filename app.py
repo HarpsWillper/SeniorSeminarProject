@@ -25,13 +25,21 @@ def get_clan_members():
 
     app = Dash(__name__)
 
+    # assume you have a "long-form" data frame
+    # see https://plotly.com/python/px-arguments/ for more options
+    #df = pd.DataFrame({
+    #"Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+    #"Amount": [4, 1, 2, 2, 4, 5],
+    #"City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
+#})
+
     fig = px.bar(member_stats, x="name", y="donations", color="name")
 
     app.layout = html.Div(children=[
         html.H1(children='Clash of Clans Dashboard'),
 
         html.Div(children='''
-            A dashboard for clan leaders to see how much their clan members are donating. Click on some names in the list to filter out members.
+            A dashboard for clan leaders to see how much their clan members are donating.
         '''),
 
         dcc.Graph(
